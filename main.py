@@ -15,17 +15,17 @@ def entropy(word):
         dict[x] = 0
     for x in cuvinte:
         v = [2, 2, 2, 2, 2]
-        a = []
+        a = ""
         for i in range(5):
             if x[i] == word[i]:
                 v[i] = 0
-                a.append(x[i])
+                a += x[i]
         for i in range(5):
             if v[i] == 0:
                 continue
-            elif x[i] in word and x[i] not in a:
+            elif x[i] in word and word.count(x[i]) > a.count(x[i]):
                 v[i] = 1
-                a.append(x[i])
+                a += x[i]
             else:
                 v[i] = 2
         if str(v) in dict:
@@ -72,7 +72,8 @@ set = {x for x in cuvinte}
 i = 0
 max = 0
 maxcuv = "ar"
-'''for x in set:
+'''
+for x in set:
     i += 1
     if(i % 100==0):
         print (i)
