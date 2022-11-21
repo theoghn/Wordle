@@ -2,7 +2,7 @@ import math
 from time import time
 before = time()
 
-nr_cuvinte = 11454
+
 def culori(v):
     for x in v:
         if x == 0:
@@ -13,7 +13,8 @@ def culori(v):
             print(grey, end="")
     print()
 
-def delete(v,variabila):
+
+def delete(v, variabila):
     global nr_cuvinte
     cuvinte2 = cuvinte.copy()
     for cuvant in cuvinte2:
@@ -67,23 +68,17 @@ def test(x, word):
     return v
 
 
-def SetUpdate(caz):
-    for x in cuvinte:
-        print("maine")
 
-
-file = open("cuvinte.txt", "r")
+file = open("Cuvinte_schimbate.txt", "r")
 cuvinte = file.read().split()
+file.close()
+nr_cuvinte = len(cuvinte)
 unchanged_list = cuvinte.copy()
 
 file = open("cazuri.txt", "r")
 cazuri = file.read().split(";")
 
 dict = {str(x): 0 for x in cazuri}
-
-
-caz = [1, 2, 1, 1, 1]
-
 
 green = "\U0001F7E9"
 yellow = "\U0001F7E8"
@@ -95,7 +90,7 @@ def best():
     set = {x for x in cuvinte}
     i = 0
     max = 0
-    maxcuv = "ar"
+    maxcuv = ""
     for x in set:
         i += 1
         b = entropy(x)
@@ -108,37 +103,33 @@ def best():
 f = open("solutii2.txt", "w")
 
 
-op = 0
 incercari = 0
-for to_find in unchanged_list:
-    op += 1
-    f.write(to_find + " ")
-    tarei = "TAREI"
-    f.write("TAREI ")
-    culori(test(tarei,to_find))
-    delete(test(tarei,to_find),tarei)
-    print(nr_cuvinte, end=" ")
-    print(tarei)
-    incercari += 1
-    while nr_cuvinte != 1:
-        pl = best()
-        incercari += 1
-        delete(test(pl,to_find),pl)
-        if nr_cuvinte != 1:
-            f.write(pl + " ")
-            print(pl)
-        print(nr_cuvinte, end=" ")
+def solve():
+    f = open("communication.txt", "r")
+    folosit = f.readline().strip()
+    caz = f.readline().split()
+    v = [1, 1, 1, 2, 2]
+    for r in range(5):
+        v[r] = int(caz[r])
+    #print(v)
+    delete(v,folosit)
+
+    wr = open("Cuvinte_schimbate.txt", "w+")
+    for cuv in cuvinte:
+        wr.write(cuv + "\n")
+    wr.close()
+    #print(nr_cuvinte)
+    if nr_cuvinte != 1:
+        alegere = best()
+    else:
+        alegere = cuvinte[0]
+    f2 = open("communication.txt", "w+")
+    f2.write(alegere + "\n")
 
 
-    print(cuvinte[0])
-    f.write(cuvinte[0] + "\n")
-
-    cuvinte = unchanged_list.copy()
-    nr_cuvinte = 11454
-    if(op == 10):
-        break
+solve()
 
 # print(entropy(to_find))
-print(float(incercari/10))
-print(time()-before)
+#print(float(incercari/10))
+#print(time()-before)
 # SetUpdate(2)
