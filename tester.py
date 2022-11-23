@@ -87,11 +87,10 @@ grey = "\u2B1B"
 #print(entropy(tarei))
 #culori(test(tarei,to_find))
 def best():
-    set = {x for x in cuvinte}
     i = 0
     max = 0
     maxcuv = ""
-    for x in set:
+    for x in cuvinte:
         i += 1
         b = entropy(x)
         if b > max:

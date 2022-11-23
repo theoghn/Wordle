@@ -92,11 +92,10 @@ grey = "\u2B1B"
 #print(entropy(tarei))
 #culori(test(tarei,to_find))
 def best():
-    set = {x for x in cuvinte}
     i = 0
     max = 0
     maxcuv = "ar"
-    for x in set:
+    for x in cuvinte:
         i += 1
         b = entropy(x)
         if b > max:
@@ -108,10 +107,8 @@ def best():
 f = open("solutii2.txt", "w")
 
 
-op = 0
 incercari = 0
 for to_find in unchanged_list:
-    op += 1
     f.write(to_find + " ")
     tarei = "TAREI"
     f.write("TAREI ")
@@ -135,10 +132,8 @@ for to_find in unchanged_list:
 
     cuvinte = unchanged_list.copy()
     nr_cuvinte = 11454
-    if(op == 10):
-        break
 
 # print(entropy(to_find))
-print(float(incercari/10))
+print(float(incercari/11454))
 print(time()-before)
 # SetUpdate(2)
