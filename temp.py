@@ -1,5 +1,3 @@
-f = open("Cuvinte.txt", "r")
-cuvinte = f.readlines()
-wr = open("Cuvinte_schimbate.txt", "w")
-for cuv in cuvinte:
-    wr.write(cuv)
+f = open("solutii6.txt", "r")
+la = len(f.read().split()) - 11454
+print(la/11454)

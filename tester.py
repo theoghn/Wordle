@@ -1,52 +1,47 @@
 import math
-from time import time
-before = time()
 
-
-def culori(v):
-    for x in v:
-        if x == 0:
-            print(green, end="")
-        elif x == 1:
-            print(yellow, end="")
-        else:
-            print(grey, end="")
-    print()
-
-
-def delete(v, variabila):
+# Functie pentru stergerea cuvintelor in functie de patternul primit
+def delete(pattern, guess):
     global nr_cuvinte
     cuvinte2 = cuvinte.copy()
     for cuvant in cuvinte2:
         for i in range(5):
-            if v[i] == 0 and variabila[i] != cuvant[i]:
+            if pattern[i] == 0 and guess[i] != cuvant[i]:
                 nr_cuvinte -= 1
                 cuvinte.remove(cuvant)
                 break
-            elif v[i] == 1 and variabila[i] not in cuvant:
+            elif pattern[i] == 1 and guess[i] not in cuvant:
                 nr_cuvinte -= 1
                 cuvinte.remove(cuvant)
                 break
-            elif v[i] == 1 and variabila[i] == cuvant[i]:
+            elif pattern[i] == 1 and guess[i] == cuvant[i]:
                 nr_cuvinte -= 1
                 cuvinte.remove(cuvant)
                 break
-            elif v[i] == 2 and variabila[i] in cuvant:
+            elif pattern[i] == 2 and guess[i] in cuvant:
                 nr_cuvinte -= 1
                 cuvinte.remove(cuvant)
                 break
 
-
+# Functie pentru calcularea entropiei
 def entropy(word):
+    # reintializare dictionarului cu valori de 0
     for x in dict:
         dict[x] = 0
-    for x in cuvinte:
-        v = test(x, word)
+    # completarea dictionarului de cazuri cu nr de aparitii al fiecaruia
+    for cuvant in cuvinte:
+        v = [2, 2, 2, 2, 2]
+        for i in range(5):
+            if cuvant[i] == word[i]:
+                v[i] = 0
+            elif word[i] in cuvant:
+                v[i] = 1
+            else:
+                v[i] = 2
         if str(v) in dict:
             dict[str(v)] += 1
-            '''print(x)
-            culori(v)
-            print()'''
+
+    #calcularea entropiei cuvantului
     s = 0
     for x in dict:
         c = float(dict[x])
@@ -54,19 +49,6 @@ def entropy(word):
         if p != 0:
             s += p*math.log2(1/p)
     return s
-
-
-def test(x, word):
-    v = [2, 2, 2, 2, 2]
-    for i in range(5):
-        if x[i] == word[i]:
-            v[i] = 0
-        elif x[i] in word:
-            v[i] = 1
-        else:
-            v[i] = 2
-    return v
-
 
 
 file = open("Cuvinte_schimbate.txt", "r")
@@ -84,40 +66,36 @@ green = "\U0001F7E9"
 yellow = "\U0001F7E8"
 grey = "\u2B1B"
 
-#print(entropy(tarei))
-#culori(test(tarei,to_find))
+# Funtia alege cuvantul cu cea mai buna entropie
 def best():
-    i = 0
     max = 0
     maxcuv = ""
-    for x in cuvinte:
-        i += 1
-        b = entropy(x)
-        if b > max:
-            maxcuv = x
-            max = b
+    for cuvant in cuvinte:
+        var = entropy(cuvant)
+        # Evita cateva cazuri in care mai multe cuvinte au aceasi entropie si trebuie sa ajunga la ultimul
+        if var > max:
+            maxcuv = cuvant
+            max = var
     return maxcuv
 
 
-f = open("solutii2.txt", "w")
-
-
-incercari = 0
 def solve():
     f = open("communication.txt", "r")
     folosit = f.readline().strip()
     caz = f.readline().split()
+    # solutie pentru a evita cateva erori in compararea '2'si 2
     v = [1, 1, 1, 2, 2]
     for r in range(5):
         v[r] = int(caz[r])
-    #print(v)
+    # sterge cuvintele care nu mai pot fi posibile
     delete(v,folosit)
 
+    # updatam lista de cuvinte
     wr = open("Cuvinte_schimbate.txt", "w+")
     for cuv in cuvinte:
         wr.write(cuv + "\n")
     wr.close()
-    #print(nr_cuvinte)
+    # cand in lista ramane un sigur cuvant apar erori evitate astfel
     if nr_cuvinte != 1:
         alegere = best()
     else:
@@ -127,8 +105,3 @@ def solve():
 
 
 solve()
-
-# print(entropy(to_find))
-#print(float(incercari/10))
-#print(time()-before)
-# SetUpdate(2)
