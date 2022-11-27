@@ -3,6 +3,7 @@
 ## Creatori
 * Ghinea Theodor Traian (grupa 131)
 * Acsente Robert (grupa 131)
+* Toma David (grupa 131)
 
 ## Descriere
 Proiectul contine 2 programe ce comunica printr-un fisier .txt 

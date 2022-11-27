@@ -78,7 +78,7 @@ def best():
             max = var
     return maxcuv
 
-
+# Functia principala
 def solve():
     f = open("communication.txt", "r")
     folosit = f.readline().strip()

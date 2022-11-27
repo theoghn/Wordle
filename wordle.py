@@ -26,7 +26,7 @@ def test(guess, word):
         pattern += str(value) + " "
     return pattern
 
-
+# Testare pentru opener
 f = open("communication.txt", "w+")
 f.write("TAREI" + "\n")
 print("TAREI")
